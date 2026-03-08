@@ -36,6 +36,7 @@ export const BIO = {
 
 // Simple frontmatter parser for browser compatibility
 function parseMD(md: string) {
+  // Support both \n and \r\n line endings
   const match = md.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
   if (!match) return { data: {} as any, content: md };
   
@@ -43,7 +44,7 @@ function parseMD(md: string) {
   const content = match[2];
   const data: any = {};
   
-  yaml.split('\n').forEach(line => {
+  yaml.split(/\r?\n/).forEach(line => {
     const colonIndex = line.indexOf(':');
     if (colonIndex !== -1) {
       const key = line.slice(0, colonIndex).trim();
